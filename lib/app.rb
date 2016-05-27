@@ -66,18 +66,22 @@ def makes_products_section
     end
 end
 
+#Calculates how many purchases there are
 def calculate_total_purchases(product)
     product["purchases"].length
 end
 
+#Calculates total revenue there is for a given item
 def calculate_total_sales(product)
    product["purchases"].inject(0) {|sales_total, sale| sales_total + sale["price"]}
 end
 
+#Calculates average price
 def calculate_average_price(revenue, purchases = 1)
     revenue / purchases 
 end
 
+#Calculates average discount percentage
 def calculate_average_discount(retail_price, avg_price)
     ((retail_price - avg_price) / retail_price) * 100
 end
@@ -88,6 +92,7 @@ end
 	# Count and print the number of the brand's toys we stock
 	# Calculate and print the average price of the brand's toys
 	# Calculate and print the total sales volume of all the brand's toys combined
+# Call methods to make brands section
 def makes_brands_section
     items = $products_hash["items"]
     brands = items.map {|item| item["brand"]}.uniq
@@ -116,34 +121,40 @@ def makes_brands_section
 
 end
 
+#Calculates stock for given brand
 def calculate_brand_stock(key,stock)
     stock + key["stock"].to_i
 end
 
+#Calculates total brand price
 def calculate_total_brand_price(key,total)
     (key["full-price"].to_f + total.to_f)
 
 end
 
+#Calculates average brand price
 def calculate_avg_brand_price(total,items)
     (total / items).round(2)
 end
 
+#Calculates total brand sales
 def calculate_total_brand_sales(key,total)
     (total + key["purchases"].inject(0) { |purchase_total, purchase| purchase_total + purchase["price"]}).round(2)
 end
 
+#Creates body of report
 def create_report
     print_heading("Sales report")
     print_this (Date.today)
     print_data
 end
 
-
+#Prints report
 def start
     setup_files # load,read parse,and create the files
     create_report #create the report!
     puts "Report printed successfully"
 end
 
+#Starting the application
 start
