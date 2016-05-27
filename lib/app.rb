@@ -1,7 +1,4 @@
 require 'json'
-require 'date'
-require 'rubygems'
-require 'artii'
 
 #Sets up files
 def setup_files
@@ -23,6 +20,8 @@ end
 
 #Prints a given word in ascii art
 def print_heading(header)
+    require 'rubygems'
+    require 'artii'
     a = Artii::Base.new :font => 'slant'
     print_this a.asciify(header)
 end
@@ -51,6 +50,8 @@ end
 	# Calculate and print the total amount of sales
 	# Calculate and print the average price the toy sold for
 	# Calculate and print the average discount (% or $) based off the average sales price
+
+# Call methods to make products section
 def makes_products_section
     $products_hash["items"].each do |product|
         print_this product["title"]
@@ -122,13 +123,13 @@ def makes_brands_section
 end
 
 #Calculates stock for given brand
-def calculate_brand_stock(key,stock)
-    stock + key["stock"].to_i
+def calculate_brand_stock(brands,stock)
+    stock + brands["stock"].to_i
 end
 
 #Calculates total brand price
-def calculate_total_brand_price(key,total)
-    (key["full-price"].to_f + total.to_f)
+def calculate_total_brand_price(brands,total)
+    (brands["full-price"].to_f + total.to_f)
 
 end
 
@@ -138,12 +139,13 @@ def calculate_avg_brand_price(total,items)
 end
 
 #Calculates total brand sales
-def calculate_total_brand_sales(key,total)
-    (total + key["purchases"].inject(0) { |purchase_total, purchase| purchase_total + purchase["price"]}).round(2)
+def calculate_total_brand_sales(brands,total)
+    (total + brands["purchases"].inject(0) { |purchase_total, purchase| purchase_total + purchase["price"]}).round(2)
 end
 
 #Creates body of report
 def create_report
+    require 'date'
     print_heading("Sales report")
     print_this (Date.today)
     print_data
