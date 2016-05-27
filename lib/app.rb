@@ -1,5 +1,7 @@
 require 'json'
 require 'date'
+require 'rubygems'
+require 'artii'
 
 #Sets up files
 def setup_files
@@ -21,6 +23,8 @@ end
 
 #Prints a given word in ascii art
 def print_heading(header)
+    a = Artii::Base.new :font => 'slant'
+    print_this a.asciify(header)
 end
 
 #Prints sales and brands secton
